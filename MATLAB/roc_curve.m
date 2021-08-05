@@ -28,10 +28,6 @@ function [] = my_main()
 
     s_base = '/home/zeit/SDB/NiseEngFolder/newFile/forWork/forCooperation/forCVPR2021/ROC_csv/';
 
-%     exp_hips = [s_base, 'for_roc_hips.csv'];
-%     exp_isn = [s_base, 'for_roc_isn.csv'];
-%     exp_udh = [s_base, 'for_roc_udh.csv'];
-%     exp_openstego = [s_base, 'for_roc_openstego.csv'];
     exp_hips = [s_base, 'hips.csv'];
     exp_isn = [s_base, 'isn.csv'];
     exp_udh = [s_base, 'udh.csv'];
@@ -48,15 +44,16 @@ function [] = my_main()
     auc_hips = trapz(fliplr(x2), fliplr(y2));
     auc_udh = trapz(fliplr(x3), fliplr(y3));
     auc_openstego = trapz(fliplr(x4), fliplr(y4));
-    disp(['====> AUC ISN: ', string(auc_isn)]);
-    disp(['====> AUC HIPS: ', string(auc_hips)]);
-    disp(['====> AUC UDH: ', string(auc_udh)]);
-    disp(['====> AUC OpenStego: ', string(auc_openstego)]);
     
     % Draw ROC curve.
+    n1 = strcat("ISN", " (", string(auc_isn), ")");
+    n2 = strcat("HIPS", " (", string(auc_hips), ")");
+    n3 = strcat("UDH", " (", string(auc_udh), ")");
+    n4 = strcat("OpenStego", " (", string(auc_openstego), ")");
+    disp([n1, n2, n3, n4]);
     draw_roc(...
         [y1;y2;y3;y4], [x1;x2;x3;x4], fig_name, s_savedir, ...
-        ["ISN", "HIPS", "UDH", "OpenStego"]);
+        [n1,n2,n3,n4]);
     
 end
 
@@ -83,20 +80,20 @@ end
 
 
 %% --------- Draw ROC curve ----------
-function [fig] = draw_roc(ys, xs, save_img_name, s_savedir, li_names)
+function [fig] = draw_roc(ys, xs, save_img_name, s_savedir, ns)
     sz = size(ys);
     num = sz(1);
     
-    % Judge if 'li_names' is empty
-    sz_names = size(li_names);
+    % Judge if 'ns' is empty
+    sz_names = size(ns);
     num_names = sz_names(1);
     if num_names == 0
-        li_names = string(1:num);
+        ns = string(1:num);
     end
         
     cc = hsv(num+1);
     for i = 1:num % Loop Y-values.
-        scatter(xs(i,:), ys(i,:), 15, cc(i,:), 'filled', 'DisplayName', li_names(i));
+        scatter(xs(i,:), ys(i,:), 15, cc(i,:), 'filled', 'DisplayName', ns(i));
         hold on;
         plot(xs(i,:), ys(i,:), 'Color', cc(i,:), 'LineStyle', '-', 'LineWidth', 1, 'HandleVisibility', 'off');
         hold on;
