@@ -1,7 +1,11 @@
 import tensorflow as tf
 import numpy as np
+from tqdm import tqdm
+import os
 
-
+# =====================================================
+# Load Model
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '1'
 MODEL_PATH = '../Assests/my_model.pb'
 
 g_mine = tf.Graph()
@@ -10,6 +14,17 @@ with g_mine.as_default():
         graph_def = tf.GraphDef()
         graph_def.ParseFromString(f.read())
     _ = tf.import_graph_def(graph_def, name='')
+    
+# =====================================================
+# Functions
+def getFilePaths(path):
+    # read a folder, return the complete path
+    ret = []
+    for root, dirs, files in os.walk(path):
+        for filespath in files:
+            ret.append(os.path.join(root, filespath))
+    ret.sort()
+    return ret
 
 def get_inception_feat(s_image):
     with tf.Session(graph=g_mine) as sess:
@@ -35,9 +50,23 @@ def get_inception_feat(s_image):
 
 
 if __name__ == '__main__':
-    s_image = (
+    # Saving
+    li_imgs = getFilePaths(
         '/home/zeit/SDB/NiseEngFolder/newFile/forWork/forCooperation/'
-        'forOCR/train_gender/allset/601155.jpg')
+        'forOCR/train_gender/allset')
+    dict_feats = {}
+    s_save = '/home/zeit/SDB/NiseEngFolder/newFile/forWork/forCooperation/forOCR/train_gender/'
+    n_save = 'allset_feats'
     
-    feat = get_inception_feat(s_image)
-    print(f'====> feat: {feat}')
+    for idx, s_in in enumerate(tqdm(li_imgs)):
+        # if idx > 2: break
+        n_img = os.path.basename(s_in)[:-4]
+        feat = get_inception_feat(s_in)
+        dict_feats[n_img] = feat
+        
+    np.savez(f'{s_save}{n_save}', dict_feats)
+    
+    # Loading
+    npzfile = np.load(f'{s_save}{n_save}.npz', allow_pickle=True)
+    print(f'====> npzfile: \n{npzfile["arr_0"].item()}')
+

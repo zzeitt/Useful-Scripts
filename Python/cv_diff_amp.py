@@ -40,13 +40,13 @@ def genDiff(cv_1, cv_2, amp=50):
     return tensor2img((ten_1 - ten_2)*amp)
 
 if __name__ == "__main__":
-    cv_rev = cv2.imread(
-        '/home/zeit/SDB/NiseEngFolder/forTestModels/forMEDFE/result/901_mine_out_DE.png')
-    cv_rev_gt = cv2.imread(
-        '/home/zeit/SDB/NiseEngFolder/forTestModels/forMEDFE/result/901_official_out.png')
-    cv_diff = genDiff(cv_rev, cv_rev_gt, 10)
+    cv_cmp1 = cv2.imread(
+        '/home/zeit/SDB/NiseEngFolder/newFile/forWork/forCooperation/forCVPR2021/dataset/test_1k_380/ILSVRC2012_val_00000563.JPEG')
+    cv_cmp2 = cv2.imread(
+        '/home/zeit/SDB/NiseEngFolder/newFile/forWork/forCooperation/forCVPR2021/images_2/openstego/ILSVRC2012_val_00000563.JPEG')
+    cv_diff = genDiff(cv_cmp1, cv_cmp2, 10)
     
-    cv2.imshow('rev', cv_rev_gt)
-    cv2.imshow('rev_gt', cv_rev_gt)
+    cv2.imshow('cmp1', cv_cmp2)
+    cv2.imshow('cmp2', cv_cmp2)
     cv2.imshow('diff', cv_diff)
     cv2.waitKey(0)
