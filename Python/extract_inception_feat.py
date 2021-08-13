@@ -6,7 +6,7 @@ import os
 # =====================================================
 # Load Model
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '1'
-MODEL_PATH = '../Assests/my_model.pb'
+MODEL_PATH = '../Assests/inception.pb'
 
 g_mine = tf.Graph()
 with g_mine.as_default():
