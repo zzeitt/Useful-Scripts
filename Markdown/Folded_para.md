@@ -23,3 +23,15 @@ asyncio.run(main())
 ```
 
 </details>
+
+<details>
+  <summary>
+  (1) Why `pigar` generates multiple packages for same import name?
+  
+  (2) Why `pigar` generates different packages for same import name in different environment?
+  </summary>
+
+`pigar` can not handle it gracefully, you may need to remove the duplicate packages in requirements.txt manually.
+Install the required package(remove others) in local environment should fix it as well.
+
+</details>
