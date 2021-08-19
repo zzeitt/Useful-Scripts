@@ -1,0 +1,7 @@
+# Essential patterns
+.idea/*
+*__pycache__*
+*.so
+*.ipynb_checkpoints*
+*.yml
+*.json
