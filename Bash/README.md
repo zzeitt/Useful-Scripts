@@ -5,8 +5,10 @@
 ```bash
 xrandr | grep " connected"| cut -f1 -d ' '
 ```
-2. Run bash scripts
-Replace `MNT1` & `MNT2` with outputs from step 1.
+
+Replace `MNT1` & `MNT2` variables.
+
+2. Run bash script
 ```bash
 bash turn_on_off_monitors.sh
 ```
