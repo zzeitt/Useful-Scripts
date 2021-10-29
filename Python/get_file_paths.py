@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 
 
 def getFilePaths(path, key=None):
@@ -22,3 +23,17 @@ def getSubDirs(path):
     subdirs.sort()
     subdirs = subdirs[1:]
     return subdirs
+
+
+def rgetFilePaths(path_base, pattern='*'):
+    p_base = Path(path_base)
+    li_ret = []
+    if p_base.is_dir():
+        for p in p_base.rglob(pattern):
+            if p.is_file():
+                li_ret.append(p.resolve(strict=True))
+    else:
+        li_ret = [p_base]
+
+    li_ret = sorted(list(map(str, li_ret)))
+    return li_ret
