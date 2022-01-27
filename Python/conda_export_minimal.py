@@ -17,11 +17,8 @@ import yaml
 import fire
 
 
-CONDA_PATH = '/home/zeit/miniconda3/condabin/conda'
-
-
-def export_env(history_only=False):
-    cmd = [CONDA_PATH, 'env', 'export']
+def export_env(s_conda, history_only=False):
+    cmd = [s_conda, 'env', 'export']
     if history_only:
         cmd.append('--from-history')
 
@@ -62,9 +59,15 @@ def _combine_env_data(env_data_full, env_data_hist):
     return env_data
 
 
-def main(s_save=None):
-    env_data_full = export_env()
-    env_data_hist = export_env(history_only=True)
+def main(
+    s_conda='/home/zeit/miniconda3/condabin/conda',
+    s_save=None):
+    '''
+    Run `whereis conda` to find the location of the conda executable.
+    Give `s_conda` the path to the conda executable.
+    '''
+    env_data_full = export_env(s_conda)
+    env_data_hist = export_env(s_conda, True)
     env_data = _combine_env_data(env_data_full, env_data_hist)
     if s_save:
         with open(s_save, 'w') as y:
