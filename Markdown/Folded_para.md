@@ -1,4 +1,4 @@
-<details>
+<details open>
 <summary>Async variant</summary>
 
 ```py
@@ -24,7 +24,7 @@ asyncio.run(main())
 
 </details>
 
-<details>
+<details open>
   <summary>
   (1) Why `pigar` generates multiple packages for same import name?
   
